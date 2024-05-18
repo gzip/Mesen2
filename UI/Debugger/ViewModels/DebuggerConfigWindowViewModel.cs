@@ -285,6 +285,8 @@ namespace Mesen.Debugger.ViewModels
 				DebuggerShortcut.FunctionList_ViewInMemoryViewer,
 				DebuggerShortcut.BreakpointList_Add,
 				DebuggerShortcut.BreakpointList_Edit,
+				DebuggerShortcut.BreakpointList_MoveUp,
+				DebuggerShortcut.BreakpointList_MoveDown,
 				DebuggerShortcut.BreakpointList_GoToLocation,
 				DebuggerShortcut.BreakpointList_ViewInMemoryViewer,
 				DebuggerShortcut.BreakpointList_Delete,

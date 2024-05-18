@@ -3020,6 +3020,8 @@ E
 			<Value ID="FunctionList_ViewInMemoryViewer">Function List: View in Memory Viewer</Value>
 			<Value ID="BreakpointList_Add">Breakpoint List: Add Breakpoint</Value>
 			<Value ID="BreakpointList_Edit">Breakpoint List: Edit Breakpoint</Value>
+			<Value ID="BreakpointList_MoveUp">Breakpoint List: Move Up</Value>
+			<Value ID="BreakpointList_MoveDown">Breakpoint List: Move Down</Value>
 			<Value ID="BreakpointList_GoToLocation">Breakpoint List: Go to Location</Value>
 			<Value ID="BreakpointList_ViewInMemoryViewer">Breakpoint List: View in Memory Viewer</Value>
 			<Value ID="BreakpointList_Delete">Breakpoint List: Delete Breakpoint</Value>

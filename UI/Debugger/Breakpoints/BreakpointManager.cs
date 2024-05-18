@@ -51,6 +51,15 @@ namespace Mesen.Debugger
 			SetBreakpoints();
 		}
 
+		public static void UpdateBreakpoint(int index, Breakpoint? bp = null)
+		{
+			if(bp != null && _breakpoints[index] != bp) {
+				_breakpoints[index] = bp;
+				BreakpointsChanged?.Invoke(bp, EventArgs.Empty);
+			}
+			DebugWorkspaceManager.AutoSave();
+		}
+
 		public static void ClearBreakpoints()
 		{
 			_breakpoints = new();

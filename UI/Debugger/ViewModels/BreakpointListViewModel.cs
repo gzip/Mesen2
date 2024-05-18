@@ -16,6 +16,7 @@ using System.Collections;
 using DataBoxControl;
 using Avalonia.Collections;
 using Avalonia.Controls.Selection;
+using Avalonia.Interactivity;
 
 namespace Mesen.Debugger.ViewModels
 {
@@ -56,7 +57,7 @@ namespace Mesen.Debugger.ViewModels
 			List<int> selectedIndexes = Selection.SelectedIndexes.ToList();
 
 			List<BreakpointViewModel> sortedBreakpoints = BreakpointManager.GetBreakpoints(CpuType).Select(bp => new BreakpointViewModel(bp)).ToList();
-			
+
 			if(SortState.SortOrder.Count > 0) {
 				SortHelper.SortList(sortedBreakpoints, SortState.SortOrder, _comparers, "Address");
 			}
@@ -69,6 +70,30 @@ namespace Mesen.Debugger.ViewModels
 		{
 			foreach(BreakpointViewModel bp in Breakpoints) {
 				bp.Refresh();
+			}
+		}
+
+		public void MoveUp(int index)
+		{
+			ReadOnlyCollection<Breakpoint> entries = BreakpointManager.Breakpoints;
+			if(index > 0 && index < entries.Count) {
+				Breakpoint currentEntry = entries[index];
+				Breakpoint entryAbove = entries[index - 1];
+				BreakpointManager.UpdateBreakpoint(index - 1, currentEntry);
+				BreakpointManager.UpdateBreakpoint(index, entryAbove);
+				Selection.SelectedIndex--;
+			}
+		}
+
+		public void MoveDown(int index)
+		{
+			ReadOnlyCollection<Breakpoint> entries = BreakpointManager.Breakpoints;
+			if(index < entries.Count - 1) {
+				Breakpoint currentEntry = entries[index];
+				Breakpoint entryBelow = entries[index + 1];
+				BreakpointManager.UpdateBreakpoint(index + 1, currentEntry);
+				BreakpointManager.UpdateBreakpoint(index, entryBelow);
+				Selection.SelectedIndex++;
 			}
 		}
 
@@ -102,6 +127,28 @@ namespace Mesen.Debugger.ViewModels
 					OnClick = () => {
 						List<Breakpoint> selectedBps = Selection.SelectedItems.Cast<BreakpointViewModel>().Select(vm => vm.Breakpoint).ToList();
 						BreakpointManager.RemoveBreakpoints(selectedBps);
+					}
+				},
+
+				new ContextMenuSeparator(),
+
+				new ContextMenuAction() {
+					ActionType = ActionType.MoveUp,
+					RoutingStrategy = RoutingStrategies.Tunnel,
+					Shortcut = () => ConfigManager.Config.Debug.Shortcuts.Get(DebuggerShortcut.BreakpointList_MoveUp),
+					IsEnabled = () => Selection.SelectedItems.Count == 1 && Selection.SelectedIndex > 0,
+					OnClick = () => {
+						MoveUp(Selection.SelectedIndex);
+					}
+				},
+
+				new ContextMenuAction() {
+					ActionType = ActionType.MoveDown,
+					RoutingStrategy = RoutingStrategies.Tunnel,
+					Shortcut = () => ConfigManager.Config.Debug.Shortcuts.Get(DebuggerShortcut.BreakpointList_MoveDown),
+					IsEnabled = () => Selection.SelectedItems.Count == 1 && Selection.SelectedIndex < Breakpoints.Count - 1,
+					OnClick = () => {
+						MoveDown(Selection.SelectedIndex);
 					}
 				},
 
