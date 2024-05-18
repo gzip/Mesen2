@@ -171,6 +171,7 @@ namespace Mesen.Debugger.ViewModels
 				DebuggerShortcut.MemoryViewer_Unfreeze,
 				DebuggerShortcut.MemoryViewer_AddToWatch,
 				DebuggerShortcut.MemoryViewer_EditBreakpoint,
+				DebuggerShortcut.MemoryViewer_DeleteBreakpoint,
 				DebuggerShortcut.MemoryViewer_EditLabel,
 				DebuggerShortcut.MemoryViewer_Import,
 				DebuggerShortcut.MemoryViewer_Export,

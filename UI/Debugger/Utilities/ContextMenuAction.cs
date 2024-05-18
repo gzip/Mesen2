@@ -320,6 +320,9 @@ namespace Mesen.Debugger.Utilities
 		[IconFile("BreakpointEnableDisable")]
 		EditBreakpoint,
 
+		[IconFile("Close")]
+		DeleteBreakpoint,
+
 		MarkSelectionAs,
 
 		[IconFile("Accept")]

@@ -1586,7 +1586,7 @@
 		<Message ID="ClearHistory">Clear History</Message>
 
 		<Message ID="SpcClockSpeedMsg">= {0} Hz (default: 40)</Message>
-E
+
 		<Message ID="FirmwareNotFound">This game requires a firmware file for the: {0}&#xA;&#xA;  Filename: {1}&#xA;  Size: {2} bytes&#xA;&#xA;Would you like to select it now?</Message>
 		<Message ID="FirmwareMismatch">The selected file does not match the firmware required for the: {0}&#xA;&#xA;Firmware SHA-256:&#xA;{1}&#xA;&#xA;Selected file's SHA-256:&#xA;{2}&#xA;&#xA;Would you like to use this file anyway?</Message>
 		<Message ID="FirmwareFileWrongSize">The selected file does not match the required size ({0} bytes) and cannot be used.</Message>
@@ -3057,6 +3057,7 @@ E
 			<Value ID="MemoryViewer_Unfreeze">Unfreeze</Value>
 			<Value ID="MemoryViewer_AddToWatch">Add to Watch</Value>
 			<Value ID="MemoryViewer_EditBreakpoint">Edit Breakpoint</Value>
+			<Value ID="MemoryViewer_DeleteBreakpoint">Delete Breakpoint</Value>
 			<Value ID="MemoryViewer_EditLabel">Edit Label</Value>
 			<Value ID="MemoryViewer_Import">Import</Value>
 			<Value ID="MemoryViewer_Export">Export</Value>
@@ -3120,6 +3121,7 @@ E
 			<Value ID="EditTilemapBreakpoint">Edit Breakpoint (Tilemap)</Value>
 			<Value ID="EditAttributeBreakpoint">Edit Breakpoint (Attribute)</Value>
 			<Value ID="EditBreakpoint">Edit Breakpoint</Value>
+			<Value ID="DeleteBreakpoint">Delete Breakpoint</Value>
 
 			<Value ID="MarkSelectionAs">Mark as...</Value>
 			<Value ID="MarkAsCode">Code</Value>

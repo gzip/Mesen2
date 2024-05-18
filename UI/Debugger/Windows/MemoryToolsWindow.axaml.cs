@@ -101,7 +101,7 @@ namespace Mesen.Debugger.Windows
 			if(byteOffset >= 0) {
 				if(byteOffset != _prevByteOffset) {
 					CpuType cpuType = _model.Config.MemoryType.ToCpuType();
-					
+
 					AddressInfo addr = new AddressInfo() { Address = byteOffset, Type = _model.Config.MemoryType };
 					AddressInfo relAddr;
 					AddressInfo absAddr;
@@ -150,6 +150,7 @@ namespace Mesen.Debugger.Windows
 				new ContextMenuSeparator(),
 				GetAddWatchAction(),
 				GetEditBreakpointAction(),
+				GetDeleteBreakpointAction(),
 				GetEditLabelAction(),
 				new ContextMenuSeparator(),
 				GetViewInDebuggerAction(),
@@ -556,9 +557,9 @@ namespace Mesen.Debugger.Windows
 					Breakpoint? bp = BreakpointManager.GetMatchingBreakpoint(startAddress, endAddress, memType);
 					CpuType cpuType = memType.ToCpuType();
 					if(bp == null) {
-						bp = new Breakpoint() { 
-							MemoryType = memType, 
-							CpuType = cpuType, 
+						bp = new Breakpoint() {
+							MemoryType = memType,
+							CpuType = cpuType,
 							StartAddress = startAddress,
 							EndAddress = endAddress,
 							BreakOnWrite = true,
@@ -572,6 +573,32 @@ namespace Mesen.Debugger.Windows
 					bool result = await BreakpointEditWindow.EditBreakpointAsync(bp, this);
 					if(result && DebugWindowManager.GetDebugWindow<DebuggerWindow>(x => x.CpuType == cpuType) == null) {
 						DebuggerWindow.GetOrOpenWindow(cpuType);
+					}
+				}
+			};
+		}
+
+		private ContextMenuAction GetDeleteBreakpointAction()
+		{
+			return new ContextMenuAction() {
+				ActionType = ActionType.DeleteBreakpoint,
+				HintText = () => GetAddressRange(),
+				Shortcut = () => ConfigManager.Config.Debug.Shortcuts.Get(DebuggerShortcut.MemoryViewer_DeleteBreakpoint),
+				OnClick = () => {
+					uint startAddress = (uint)_editor.SelectionStart;
+					uint endAddress = (uint)(_editor.SelectionStart + Math.Max(1, _editor.SelectionLength) - 1);
+					MemoryType memType = _model.Config.MemoryType;
+					// first check for a breakpoint taking the complete the range
+					Breakpoint? bp = BreakpointManager.GetMatchingBreakpoint(startAddress, endAddress, memType);
+					if(bp != null) {
+						BreakpointManager.RemoveBreakpoint(bp);
+					}
+					// then check for each individual address
+					for(uint i = startAddress; i <= endAddress; i++) {
+						bp = BreakpointManager.GetMatchingBreakpoint(i, i, memType);
+						if(bp != null) {
+							BreakpointManager.RemoveBreakpoint(bp);
+						}
 					}
 				}
 			};
