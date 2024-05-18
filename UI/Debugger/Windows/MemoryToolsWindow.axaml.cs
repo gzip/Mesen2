@@ -154,6 +154,7 @@ namespace Mesen.Debugger.Windows
 				new ContextMenuSeparator(),
 				GetViewInDebuggerAction(),
 				GetViewInMemoryAction(),
+				GetJumpToMemoryAction(),
 				new ContextMenuSeparator() { IsVisible = () => _model.Config.MemoryType.SupportsFreezeAddress() },
 				GetFreezeAction(ActionType.FreezeMemory, DebuggerShortcut.MemoryViewer_Freeze),
 				GetFreezeAction(ActionType.UnfreezeMemory, DebuggerShortcut.MemoryViewer_Unfreeze),
@@ -396,6 +397,26 @@ namespace Mesen.Debugger.Windows
 					}
 				},
 				Shortcut = () => ConfigManager.Config.Debug.Shortcuts.Get(DebuggerShortcut.MemoryViewer_ViewInMemoryType)
+			};
+		}
+
+		private ContextMenuAction GetJumpToMemoryAction()
+		{
+			AddressInfo GetAddress()
+			{
+				MemoryType memType = _model.Config.MemoryType;
+				int byteValue = DebugApi.GetMemoryValue(memType, (uint) _model.SelectionStart);
+				int wordValue = (DebugApi.GetMemoryValue(memType, (uint) _model.SelectionStart + 1) << 8) | byteValue;
+				return new AddressInfo() { Address = wordValue, Type = memType };
+			}
+
+			return new ContextMenuAction() {
+				ActionType = ActionType.ViewInMemoryViewer,
+				IsVisible = () => _model.Config.MemoryType.SupportsMemoryViewer(),
+				HintText = () => "$" + GetAddress().Address.ToString("X4"),
+				OnClick = () => {
+					MemoryToolsWindow.ShowInMemoryTools(GetAddress().Type, GetAddress().Address);
+				}
 			};
 		}
 
