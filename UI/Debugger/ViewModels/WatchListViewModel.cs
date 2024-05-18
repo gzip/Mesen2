@@ -83,7 +83,7 @@ namespace Mesen.Debugger.ViewModels
 
 			Manager.UpdateWatch(index, expression);
 		}
-		
+
 		public void MoveUp(int index)
 		{
 			List<string> entries = Manager.WatchEntries;
@@ -92,6 +92,7 @@ namespace Mesen.Debugger.ViewModels
 				string entryAbove = entries[index - 1];
 				Manager.UpdateWatch(index - 1, currentEntry);
 				Manager.UpdateWatch(index, entryAbove);
+				Selection.SelectedIndex--;
 			}
 		}
 
@@ -103,6 +104,7 @@ namespace Mesen.Debugger.ViewModels
 				string entryBelow = entries[index + 1];
 				Manager.UpdateWatch(index + 1, currentEntry);
 				Manager.UpdateWatch(index, entryBelow);
+				Selection.SelectedIndex++;
 			}
 		}
 
