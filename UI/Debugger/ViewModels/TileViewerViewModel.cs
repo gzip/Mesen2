@@ -171,6 +171,12 @@ namespace Mesen.Debugger.ViewModels
 							CustomText = $"4x4 ({GridSizeX*4}px x {GridSizeY*4}px)",
 							IsEnabled = () => GetSelectedTileAddress() >= 0,
 							OnClick = () => EditTileGrid(4, 4, wnd)
+						},
+						new ContextMenuAction() {
+							ActionType = ActionType.Custom,
+							CustomText = $"8x8 ({GridSizeX*8}px x {GridSizeY*8}px)",
+							IsEnabled = () => GetSelectedTileAddress() >= 0,
+							OnClick = () => EditTileGrid(8, 8, wnd)
 						}
 					}
 				},

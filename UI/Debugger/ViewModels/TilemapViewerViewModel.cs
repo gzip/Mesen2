@@ -186,6 +186,11 @@ namespace Mesen.Debugger.ViewModels
 							ActionType = ActionType.Custom,
 							CustomText = $"4x4 ({GridSizeX*4}px x {GridSizeY*4}px)",
 							OnClick = () => EditTileGrid(4, 4, wnd)
+						},
+						new ContextMenuAction() {
+							ActionType = ActionType.Custom,
+							CustomText = $"8x8 ({GridSizeX*8}px x {GridSizeY*8}px)",
+							OnClick = () => EditTileGrid(8, 8, wnd)
 						}
 					}
 				},
