@@ -3203,6 +3203,8 @@ E
 			<Value ID="ExportToPng">Export to PNG</Value>
 			<Value ID="ViewInTileViewer">View in Tile Viewer</Value>
 			<Value ID="ViewInMemoryViewer">View in Memory Viewer</Value>
+			<Value ID="ViewTilemapInMemoryViewer">View in Memory Viewer (Tilemap)</Value>
+			<Value ID="ViewAttributeInMemoryViewer">View in Memory Viewer (Attribute)</Value>
 			
 			<Value ID="LoadTblFile">Load TBL file...</Value>
 			<Value ID="ResetTblMappings">Reset TBL mappings</Value>
