@@ -5,6 +5,7 @@ using Dock.Model.Core;
 using Mesen.Config;
 using Mesen.Debugger.Controls;
 using Mesen.Debugger.Disassembly;
+using Mesen.Debugger.Labels;
 using Mesen.Debugger.Utilities;
 using Mesen.Debugger.Views;
 using Mesen.Interop;
@@ -314,6 +315,60 @@ namespace Mesen.Debugger.ViewModels
 			DebuggerConfig cfg = Config.Debugger;
 			string code = GetSelection(cfg.CopyAddresses, cfg.CopyByteCode, cfg.CopyComments, cfg.CopyBlockHeaders, out _, false);
 			ApplicationHelper.GetMainWindow()?.Clipboard?.SetTextAsync(code);
+		}
+
+		private CodeLineData GetCurrentLine(bool hasAddr = true)
+		{
+			CodeLineData[] lines = DataProvider.GetCodeLines(SelectionStart, 10);
+			for(int d = 0; d < lines.Length; d++) {
+				if(lines[d].HasAddress == hasAddr) {
+					return lines[d];
+				}
+			}
+
+			return lines[0];
+		}
+
+		private void SetClipboardText(string? text)
+		{
+			ApplicationHelper.GetMainWindow()?.Clipboard?.SetTextAsync(text != null ? text : "");
+		}
+
+		public void CopyLabel()
+		{
+			CodeLineData line = GetCurrentLine(false);
+			SetClipboardText(line.HasAddress ? "" : line.Text);
+		}
+
+		public void CopyComment()
+		{
+			CodeLineData line = GetCurrentLine();
+			SetClipboardText(line.Comment);
+		}
+
+		public void CopyAddress(bool incBank = false, bool isAbs = false)
+		{
+			CodeLineData line = GetCurrentLine();
+			string addressText = "";
+
+			if(incBank) {
+				int index = line.Address < 0xC000 ? 4 : 5;
+				MemoryMappingBlock mapping = Debugger.MemoryMappings.CpuMappings[index];
+				addressText = mapping.Page.ToString("X2") + ":";
+			}
+
+			addressText += line.GetAddressText(
+				isAbs ? AddressDisplayType.AbsAddress : AddressDisplayType.CpuAddress,
+				"X" + DataProvider.CpuType.GetAddressSize()
+			);
+
+			SetClipboardText(addressText);
+		}
+
+		public void CopyByteCode()
+		{
+			CodeLineData line = GetCurrentLine();
+			SetClipboardText(line.ByteCodeStr.Trim());
 		}
 
 		public string GetSelection(bool getAddresses, bool getByteCode, bool getComments, bool getHeaders, out int byteCount, bool skipGeneratedJmpSubLabels)

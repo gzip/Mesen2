@@ -302,6 +302,27 @@ namespace Mesen.Debugger.Utilities
 		[IconFile("Copy")]
 		Copy,
 
+		[IconFile("Copy")]
+		CopyInfo,
+
+		[IconFile("Copy")]
+		CopyLabel,
+
+		[IconFile("Copy")]
+		CopyComment,
+
+		[IconFile("Copy")]
+		CopyAddress,
+
+		[IconFile("Copy")]
+		CopyBankAndAddress,
+
+		[IconFile("Copy")]
+		CopyAbsAddress,
+
+		[IconFile("Copy")]
+		CopyByteCode,
+
 		[IconFile("Paste")]
 		Paste,
 

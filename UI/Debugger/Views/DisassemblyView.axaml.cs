@@ -87,6 +87,39 @@ namespace Mesen.Debugger.Views
 					IsVisible = () => !IsMarginClick,
 					OnClick = () => Model.CopySelection()
 				},
+				new ContextMenuAction() {
+					ActionType = ActionType.CopyInfo,
+					IsVisible = () => !IsMarginClick,
+					SubActions = new() {
+						new ContextMenuAction() {
+							ActionType = ActionType.CopyLabel,
+							OnClick = () => Model.CopyLabel()
+						},
+						new ContextMenuAction() {
+							ActionType = ActionType.CopyComment,
+							OnClick = () => Model.CopyComment()
+						},
+						new ContextMenuAction() {
+							ActionType = ActionType.CopyAddress,
+							HintText = () => "CPU",
+							OnClick = () => Model.CopyAddress()
+						},
+						new ContextMenuAction() {
+							ActionType = ActionType.CopyBankAndAddress,
+							OnClick = () => Model.CopyAddress(true),
+							IsVisible = () => CpuType == CpuType.Nes
+						},
+						new ContextMenuAction() {
+							ActionType = ActionType.CopyAbsAddress,
+							HintText = () => CpuType == CpuType.Nes ? "PRG" : "",
+							OnClick = () => Model.CopyAddress(false, true)
+						},
+						new ContextMenuAction() {
+							ActionType = ActionType.CopyByteCode,
+							OnClick = () => Model.CopyByteCode()
+						}
+					}
+				},
 				new ContextMenuSeparator() { IsVisible = () => !IsMarginClick },
 				new ContextMenuAction() {
 					ActionType = ActionType.ToggleBreakpoint,
